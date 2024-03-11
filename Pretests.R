@@ -9,7 +9,11 @@ library(lavaan)
 library(psych)
 
 # input/output
+# Path Corentin Vdk
 pretest_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+
+# Path Flore
+#pretest_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
 
 #pretest Study 1
 pretest_study1_raw <- read_sav(paste0(pretest_path, "20231005 Study 1 PRETEST.sav"))
