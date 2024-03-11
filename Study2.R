@@ -1,0 +1,136 @@
+#get packages if missing
+install.packages("lavaan")
+install.packages("haven")
+install.packages("psych")
+
+#load packages
+library(haven)
+library(lavaan)
+library(psych)
+
+#load database and filter responses
+study2_raw <- read_sav("20231005 Study 2.sav")
+study2 <- subset(study2_raw, filter_all > 0)
+#note0: filtering is obtained with two variables: not recalling correctly the name of the fictitious company, spending too little (1s) or too much (15s) time per item on average
+#note1: #MORALLID4 and MORALID5 are recoded. Original items are Reverse_MoralID3 and Reverse_MoralID5
+#note2: m_Praising, m_Condemning, m_PWoM, m_NWoM, and m_MoralID are the unweighted means of the items measuring each construct
+#note3: FairnessVSconventional is a dummy variable, with fairness-aware algorithm = 1 and conventional algorithm = 0
+#note4: ConventionalVSfairness is a dummy variable, with fairness-aware algorithm = 0 and conventional algorithm = 1
+
+#correlation matrix
+variables <- study2[, c("m_Praising", "m_Condemning", "m_PWoM", "m_NWoM", "m_MoralID")]
+correlation_matrix <- cor(variables)
+description <- describe(variables)
+p_values <- corr.test(variables)$p
+print(correlation_matrix)
+print(description)
+print(p_values)
+
+# Cronbach's alphas
+alpha_Praising <- alpha(study2[, c("Elevation1","Elevation2","Elevation3","Gratitude1","Gratitude2","Gratitude3")])
+alpha_Condemning <- alpha(study2[, c("Anger1","Anger2","Anger3","Contempt1","Contempt2","Contempt3","Disgust1","Disgust2","Disgust3")])
+alpha_NWoM <- alpha(study2[, c("NWoM1","NWoM2","NWoM3","NWoM4")])
+alpha_PWoM <- alpha(study2[, c("PWoM1","PWoM2","PWoM3","PWoM4")])
+alpha_MoralID <- alpha(study2[, c("MoralID1","MoralID2","MoralID3","MoralID4","MoralID5")])
+
+print(alpha_Praising)
+print(alpha_Condemning)
+print(alpha_NWoM)
+print(alpha_PWoM)
+print(alpha_MoralID)
+
+#t-tests 
+t.test(m_Praising ~ FairnessVSconventional,data=study1)
+sd_group0 <- sd(study2$m_Praising[study2$FairnessVSconventional == 0])
+sd_group1 <- sd(study2$m_Praising[study2$FairnessVSconventional == 1])
+print(sd_group0)
+print(sd_group1)
+cohen.d(study2$m_Praising, study2$FairnessVSconventional)
+
+t.test(m_Condemning ~ ConventionalVSfairness,data=study1)
+sd_group0 <- sd(study2$m_Condemning[study2$ConventionalVSfairness == 0])
+sd_group1 <- sd(study2$m_Condemning[study2$ConventionalVSfairness == 1])
+print(sd_group0)
+print(sd_group1)
+cohen.d(study2$m_Praising, study2$ConventionalVSfairness)
+
+#fit of the hypothesized five-factor model
+Study2_Model5F <- "
+PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
+CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
+NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
+PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
+MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5"
+fit5F <- cfa(Study2_Model5F, data=study2)
+summary(fit5F, fit.measures=TRUE, standardized = TRUE)
+
+#fit of the one-factor model
+Study2_Model1F <- "
+FACTOR=~
+Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3+
+Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3+
+NWoM1+NWoM2+NWoM3+NWoM4+
+PWoM1+PWoM2+PWoM3+PWoM4+
+MoralID1+MoralID2+MoralID3+MoralID4+MoralID5"
+fit1F <- cfa(Study2_Model1F, data=study2)
+summary(fit1F, fit.measures=TRUE, standardized = TRUE)
+
+modelconventionalvsfairness <- "
+PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
+CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
+NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
+PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
+MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+
+PRAISING ~ a1*ConventionalVSfairness 
+CONDEMNING ~ a2*ConventionalVSfairness
+
+NWOM ~ b11*PRAISING + b12*CONDEMNING + c1*ConventionalVSfairness + MORALID
+PWOM ~ b21*PRAISING + b22*CONDEMNING + c2*ConventionalVSfairness + MORALID
+
+NWOMviaPRAISING := a1*b11
+NWOMviaCONDEMNING := a2*b12
+PWOMviaPRAISING := a1*b21
+PWOMviaCONDEMNING := a2*b22
+"
+fit1 <- sem(modelconventionalvsfairness, data=study2, se = "bootstrap",bootstrap = 10000)
+summary(fit1, fit.measures=TRUE, standardized = TRUE)
+
+estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
+                                       se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                       standardized = TRUE,
+                                       fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
+                                       cov.std = TRUE, output = "data.frame", header = TRUE)
+View(estimates_modelconventionalvsfairness)
+write.csv(estimates_modelconventionalvsfairness, "ResultsStudy2modelconventionalvsfairness.csv")
+
+modelfairnessvsconventional <- "
+PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
+CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
+NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
+PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
+#MORALLID4 and MORALID5 were reverse coded prior to analyses
+MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+
+PRAISING ~ a1*FairnessVSconventional 
+CONDEMNING ~ a2*FairnessVSconventional
+
+NWOM ~ b11*PRAISING + b12*CONDEMNING + c1*FairnessVSconventional + MORALID
+PWOM ~ b21*PRAISING + b22*CONDEMNING + c2*FairnessVSconventional + MORALID
+
+NWOMviaPRAISING := a1*b11
+NWOMviaCONDEMNING := a2*b12
+PWOMviaPRAISING := a1*b21
+PWOMviaCONDEMNING := a2*b22
+"
+fit2 <- sem(modelfairnessvsconventional, data=study2, se = "bootstrap",bootstrap = 10000)
+summary(fit2, fit.measures=TRUE, standardized = TRUE)
+
+estimates_modelfairnessvsconventional <- parameterEstimates(fit2,
+                                                            se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                            standardized = TRUE,
+                                                            fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
+                                                            cov.std = TRUE, output = "data.frame", header = TRUE)
+View(estimates_modelfairnessvsconventional)
+write.csv(estimates_modelfairnessvsconventional, "ResultsStudy2modelfairnessvsconventional.csv")
+
