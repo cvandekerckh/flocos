@@ -8,7 +8,7 @@ library(haven)
 library(lavaan)
 library(psych)
 
-# input/output path
+# input path
 # Modify the right part of '<-' with your input path locating where data is
 input_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
 #input_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"

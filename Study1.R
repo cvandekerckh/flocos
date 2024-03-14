@@ -8,7 +8,17 @@ library(haven)
 library(lavaan)
 library(psych)
 
-study1_raw <- read_sav("20231005 Study1 V2.sav")
+# input path
+# Modify the right part of '<-' with your input path locating where data is
+input_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
+#input_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+
+# output path
+# Modify the right part of '<-' with your input path locating where results will be stocked
+output_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Results/"
+#output_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Results/"
+
+study1_raw <- read_sav(paste0(input_path, "20231005 Study1 V2.sav"))
 study1 <- subset(study1_raw, filter_all > 0)
 #note0: filtering is obtained with two variables: not recalling correctly the name of the fictitious company, spending too little (1s) or too much (15s) time per item on average
 #note1: #MORALLID4 and MORALID5 are recoded. Original items are Reverse_MoralID3 and Reverse_MoralID5
@@ -92,7 +102,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit1 <- sem(modelconventionalvsfairness, data=study1, se = "bootstrap",bootstrap = 10000)
+fit1 <- sem(modelconventionalvsfairness, data=study1, se = "bootstrap",bootstrap = 10)
 summary(fit1, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
@@ -101,7 +111,7 @@ estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
                                        fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
                                        cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelconventionalvsfairness)
-write.csv(estimates_modelconventionalvsfairness, "ResultsStudy1modelconventionalvsfairness.csv")
+write.csv(estimates_modelconventionalvsfairness, paste0(output_path, "ResultsStudy1modelconventionalvsfairness.csv"))
 
 modelfairnessvsconventional <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
@@ -122,7 +132,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit2 <- sem(modelfairnessvsconventional, data=study1, se = "bootstrap",bootstrap = 10000)
+fit2 <- sem(modelfairnessvsconventional, data=study1, se = "bootstrap",bootstrap = 10)
 summary(fit2, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelfairnessvsconventional <- parameterEstimates(fit2,
@@ -131,5 +141,4 @@ estimates_modelfairnessvsconventional <- parameterEstimates(fit2,
                                                             fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
                                                             cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairnessvsconventional)
-write.csv(estimates_modelfairnessvsconventional, "ResultsStudy1modelfairnessvsconventional.csv")
-
+write.csv(estimates_modelfairnessvsconventional, paste0(output_path, "ResultsStudy1modelfairnessvsconventional.csv"))
