@@ -40,14 +40,14 @@ print(alpha_PWoM)
 print(alpha_MoralID)
 
 #t-tests 
-t.test(m_Praising ~ FairnessVSconventional,data=study1)
+t.test(m_Praising ~ FairnessVSconventional,data=study2)
 sd_group0 <- sd(study2$m_Praising[study2$FairnessVSconventional == 0])
 sd_group1 <- sd(study2$m_Praising[study2$FairnessVSconventional == 1])
 print(sd_group0)
 print(sd_group1)
 cohen.d(study2$m_Praising, study2$FairnessVSconventional)
 
-t.test(m_Condemning ~ ConventionalVSfairness,data=study1)
+t.test(m_Condemning ~ ConventionalVSfairness,data=study2)
 sd_group0 <- sd(study2$m_Condemning[study2$ConventionalVSfairness == 0])
 sd_group1 <- sd(study2$m_Condemning[study2$ConventionalVSfairness == 1])
 print(sd_group0)

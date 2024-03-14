@@ -70,6 +70,20 @@ print(sd_group0)
 print(sd_group1)
 cohen.d(study3$m_Condemning, study3$ConventionalVSfairness60)
 
+t.test(m_Praising ~ Fairness90VSfairness60,data=study3)
+sd_group0 <- sd(study3$m_Praising[study3$Fairness90VSfairness60 == 0])
+sd_group1 <- sd(study3$m_Praising[study3$Fairness90VSfairness60 == 1])
+print(sd_group0)
+print(sd_group1)
+cohen.d(study3$m_Praising, study3$Fairness90VSfairness60)
+
+t.test(m_Condemning ~ Fairness90VSfairness60,data=study3)
+sd_group0 <- sd(study3$m_Condemning[study3$Fairness90VSfairness60 == 0])
+sd_group1 <- sd(study3$m_Condemning[study3$Fairness90VSfairness60 == 1])
+print(sd_group0)
+print(sd_group1)
+cohen.d(study3$m_Condemning, study3$Fairness90VSfairness60)
+
 #fit of the hypothesized five-factor model
 Study3_Model5F <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
