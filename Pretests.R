@@ -8,12 +8,13 @@ library(haven)
 library(lavaan)
 library(psych)
 
-# input/output
-# Path Corentin Vdk
-#pretest_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+# input/output path
+# Modify the right part of '<-' with your input path locating where data is
+input_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
+#input_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
 
-# Path Flore
-pretest_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
+# path for pretest
+pretest_path <- input_path
 
 #pretest Study 1
 pretest_study1_raw <- read_sav(paste0(pretest_path, "20231005 Study 1 PRETEST.sav"))
