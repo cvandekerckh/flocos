@@ -8,15 +8,12 @@ library(haven)
 library(lavaan)
 library(psych)
 
-# input path
-# Modify the right part of '<-' with your input path locating where data is
-input_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
-#input_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
-
-# output path
-# Modify the right part of '<-' with your input path locating where results will be stocked
-output_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Results/"
-#output_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Results/"
+# input/output path
+# Modify the right part of 'path <-' with your path containing a raw fold with data and a results fold where results will be stocked
+path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
+#path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+input_path <- paste0(path, "raw/")
+output_path <- paste0(path,"results/")
 
 study1_raw <- read_sav(paste0(input_path, "20231005 Study1 V2.sav"))
 study1 <- subset(study1_raw, filter_all > 0)

@@ -8,16 +8,13 @@ library(haven)
 library(lavaan)
 library(psych)
 
-# input path
+# input/output path
 # Modify the right part of '<-' with your input path locating where data is
-input_path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
-#input_path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
-
-# path for pretest
-pretest_path <- input_path
+path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/raw/"
+#path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/raw/"
 
 #pretest Study 1
-pretest_study1_raw <- read_sav(paste0(pretest_path, "20231005 Study 1 PRETEST.sav"))
+pretest_study1_raw <- read_sav(paste0(path, "20231005 Study 1 PRETEST.sav"))
 pretest_study1 <- subset(pretest_study1_raw, filter_all > 0)
 
 t.test(Fairness ~ FairnessVSconventional,data=pretest_study1)
@@ -36,7 +33,7 @@ cohen.d(pretest_study1$Accuracy, pretest_study1$ConventionalVSfairness)
 
 
 #pretest Study 2
-pretest_study2_raw <- read_sav(paste0(pretest_path, "20231005 Study 2 PRETEST.sav"))
+pretest_study2_raw <- read_sav(paste0(path, "20231005 Study 2 PRETEST.sav"))
 pretest_study2 <- subset(pretest_study2_raw, filter_all > 0)
 
 t.test(Fairness ~ FairnessVSconventional,data=pretest_study2)
@@ -54,7 +51,7 @@ print(sd_group1)
 cohen.d(pretest_study2$Accuracy, pretest_study2$ConventionalVSfairness)
 
 #pretest Study 2
-pretest_study3_raw <- read_sav(paste0(pretest_path, "20240212 Study 3 PRETEST V4.sav"))
+pretest_study3_raw <- read_sav(paste0(path, "20240212 Study 3 PRETEST V4.sav"))
 pretest_study3 <- subset(pretest_study3_raw, filter_all > 0)
 
 t.test(Fairness ~ Fairness90VSconventional,data=pretest_study3)
