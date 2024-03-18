@@ -8,8 +8,15 @@ library(haven)
 library(lavaan)
 library(psych)
 
+# input/output path
+# Modify the right part of 'path <-' with your path containing a raw fold with data and a results fold where results will be stocked
+path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
+#path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+input_path <- paste0(path, "raw/")
+output_path <- paste0(path,"results/")
+
 #load database and filter responses
-study3_raw <- read_sav("20240213 Study 3.sav")
+study3_raw <- read_sav(paste0(input_path, "study-3.sav"))
 study3 <- subset(study3_raw, filter_all > 0)
 #note0: filtering is obtained with two variables: not recalling correctly the name of the fictitious company, spending too little (1s) or too much (15s) time per item on average
 #note1: #MORALLID4 and MORALID5 are recoded. Original items are Reverse_MoralID3 and Reverse_MoralID5
@@ -124,7 +131,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit1 <- sem(modelconventionalvsfairness90, data=study3, se = "bootstrap",bootstrap = 10000)
+fit1 <- sem(modelconventionalvsfairness90, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit1, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelconventionalvsfairness90 <- parameterEstimates(fit1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
@@ -132,7 +139,7 @@ estimates_modelconventionalvsfairness90 <- parameterEstimates(fit1,se = TRUE, zs
                         boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
 
 View(estimates_modelconventionalvsfairness90)
-write.csv(estimates_modelconventionalvsfairness90, "ResultsStudy3modelconventionalvsfairness90.csv")
+write.csv(estimates_modelconventionalvsfairness90, paste0(output_path, "ResultsStudy3modelconventionalvsfairness90.csv"))
 
 modelfairness90vsconventional <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
@@ -153,7 +160,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit2 <- sem(modelfairness90vsconventional, data=study3, se = "bootstrap",bootstrap = 10000)
+fit2 <- sem(modelfairness90vsconventional, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit2, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelfairness90vsconventional <- parameterEstimates(fit2,
@@ -162,7 +169,7 @@ estimates_modelfairness90vsconventional <- parameterEstimates(fit2,
                                                             fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
                                                             cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairness90vsconventional)
-write.csv(estimates_modelfairness90vsconventional, "ResultsStudy3modelfairness90vsconventional.csv")
+write.csv(estimates_modelfairness90vsconventional, paste0(output_path, "ResultsStudy3modelfairness90vsconventional.csv"))
 
 modelconventionalvsfairness60 <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
@@ -183,7 +190,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit3 <- sem(modelconventionalvsfairness60, data=study3, se = "bootstrap",bootstrap = 10000)
+fit3 <- sem(modelconventionalvsfairness60, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit3, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelconventionalvsfairness60 <- parameterEstimates(fit3,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
@@ -191,7 +198,7 @@ estimates_modelconventionalvsfairness60 <- parameterEstimates(fit3,se = TRUE, zs
                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
 
 View(estimates_modelconventionalvsfairness60)
-write.csv(estimates_modelconventionalvsfairness60, "ResultsStudy3modelconventionalvsfairness60.csv")
+write.csv(estimates_modelconventionalvsfairness60, paste0(output_path, "ResultsStudy3modelconventionalvsfairness60.csv"))
 
 modelfairness60vsconventional <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
@@ -212,7 +219,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit4 <- sem(modelfairness60vsconventional, data=study3, se = "bootstrap",bootstrap = 10000)
+fit4 <- sem(modelfairness60vsconventional, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit4, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelfairness60vsconventional <- parameterEstimates(fit4,
@@ -221,7 +228,7 @@ estimates_modelfairness60vsconventional <- parameterEstimates(fit4,
                                                               fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
                                                               cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairness60vsconventional)
-write.csv(estimates_modelfairness60vsconventional, "ResultsStudy3modelfairness60vsconventional.csv")
+write.csv(estimates_modelfairness60vsconventional, paste0(output_path, "ResultsStudy3modelfairness60vsconventional.csv"))
 
 modelfairness90vsfairness60 <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
@@ -242,7 +249,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit5 <- sem(modelfairness90vsfairness60, data=study3, se = "bootstrap",bootstrap = 10000)
+fit5 <- sem(modelfairness90vsfairness60, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit5, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelfairness90vsfairness60 <- parameterEstimates(fit5,
@@ -251,4 +258,4 @@ estimates_modelfairness90vsfairness60 <- parameterEstimates(fit5,
                                                               fmi = FALSE, level = 0.95, boot.ci.type = "bca.simple",
                                                               cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairness90vsfairness60)
-write.csv(estimates_modelfairness90vsfairness60, "ResultsStudy3modelfairness90vsfairness60.csv")
+write.csv(estimates_modelfairness90vsfairness60, paste0(output_path, "ResultsStudy3modelfairness90vsfairness60.csv"))
