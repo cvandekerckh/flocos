@@ -15,7 +15,7 @@ path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/
 input_path <- paste0(path, "raw/")
 output_path <- paste0(path,"results/")
 
-study1_raw <- read_sav(paste0(input_path, "20231005 Study1 V2.sav"))
+study1_raw <- read_sav(paste0(input_path, "study-1.sav"))
 study1 <- subset(study1_raw, filter_all > 0)
 #note0: filtering is obtained with two variables: not recalling correctly the name of the fictitious company, spending too little (1s) or too much (15s) time per item on average
 #note1: #MORALLID4 and MORALID5 are recoded. Original items are Reverse_MoralID3 and Reverse_MoralID5
@@ -99,7 +99,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit1 <- sem(modelconventionalvsfairness, data=study1, se = "bootstrap",bootstrap = 10)
+fit1 <- sem(modelconventionalvsfairness, data=study1, se = "bootstrap",bootstrap = 100)
 summary(fit1, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
@@ -129,7 +129,7 @@ NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
 "
-fit2 <- sem(modelfairnessvsconventional, data=study1, se = "bootstrap",bootstrap = 10)
+fit2 <- sem(modelfairnessvsconventional, data=study1, se = "bootstrap",bootstrap = 100)
 summary(fit2, fit.measures=TRUE, standardized = TRUE)
 
 estimates_modelfairnessvsconventional <- parameterEstimates(fit2,

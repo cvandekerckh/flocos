@@ -16,7 +16,7 @@ input_path <- paste0(path, "raw/")
 output_path <- paste0(path,"results/")
 
 #load database and filter responses
-study2_raw <- read_sav(paste0(input_path, "20231005 Study 2.sav"))
+study2_raw <- read_sav(paste0(input_path, "study-2.sav"))
 study2 <- subset(study2_raw, filter_all > 0)
 #note0: filtering is obtained with two variables: not recalling correctly the name of the fictitious company, spending too little (1s) or too much (15s) time per item on average
 #note1: #MORALLID4 and MORALID5 are recoded. Original items are Reverse_MoralID3 and Reverse_MoralID5
