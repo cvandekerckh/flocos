@@ -10,8 +10,7 @@ library(psych)
 
 # input/output path
 # Modify the right part of 'path <-' with your path containing a raw fold with data and a results fold where results will be stocked
-path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/"
-#path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/"
+path <- "C:/your_path/Data/"
 input_path <- paste0(path, "raw/")
 output_path <- paste0(path,"results/")
 
