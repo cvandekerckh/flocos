@@ -2,15 +2,20 @@
 install.packages("lavaan")
 install.packages("haven")
 install.packages("psych")
+install.packages("dotenv")
 
 #load packages
 library(haven)
 library(lavaan)
 library(psych)
+library(dotenv)
+
+# Load the environment variable PATH pointing towards the data location
+# Needs to be configured by the user in the .env file (see Readme.md)
+load_dot_env(file = ".env")
 
 # input/output path
-# Modify the right part of '<-' with your input path locating where data is
-path <- "C:/your_path/Data/"
+path <- Sys.getenv("PATH")
 input_path <- paste0(path, "raw/")
 
 #pretest Study 1

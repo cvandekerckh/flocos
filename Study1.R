@@ -7,10 +7,14 @@ install.packages("psych")
 library(haven)
 library(lavaan)
 library(psych)
+library(dotenv)
+
+# Load the environment variable PATH pointing towards the data location
+# Needs to be configured by the user in the .env file (see Readme.md)
+load_dot_env(file = ".env")
 
 # input/output path
-# Modify the right part of 'path <-' with your path containing a raw fold with data and a results fold where results will be stocked
-path <- "C:/your_path/Data/"
+path <- Sys.getenv("PATH")
 input_path <- paste0(path, "raw/")
 output_path <- paste0(path,"results/")
 
