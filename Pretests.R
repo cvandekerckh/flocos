@@ -10,11 +10,11 @@ library(psych)
 
 # input/output path
 # Modify the right part of '<-' with your input path locating where data is
-path <- "C:/Users/fvancomperno/UCL/O365G-Ethical Decision Making - General/Data/raw/"
-#path <- "/Users/cvandekerckh/OneDrive - UCL/2_research/General/Data/raw/"
+path <- "C:/your_path/Data/"
+input_path <- paste0(path, "raw/")
 
 #pretest Study 1
-pretest_study1_raw <- read_sav(paste0(path, "pretest_study-1.sav"))
+pretest_study1_raw <- read_sav(paste0(input_path, "pretest_study-1.sav"))
 pretest_study1 <- subset(pretest_study1_raw, filter_all > 0)
 
 t.test(Fairness ~ FairnessVSconventional,data=pretest_study1)
@@ -33,7 +33,7 @@ cohen.d(pretest_study1$Accuracy, pretest_study1$ConventionalVSfairness)
 
 
 #pretest Study 2
-pretest_study2_raw <- read_sav(paste0(path, "pretest_study-2.sav"))
+pretest_study2_raw <- read_sav(paste0(input_path, "pretest_study-2.sav"))
 pretest_study2 <- subset(pretest_study2_raw, filter_all > 0)
 
 t.test(Fairness ~ FairnessVSconventional,data=pretest_study2)
@@ -50,8 +50,8 @@ print(sd_group0)
 print(sd_group1)
 cohen.d(pretest_study2$Accuracy, pretest_study2$ConventionalVSfairness)
 
-#pretest Study 2
-pretest_study3_raw <- read_sav(paste0(path, "pretest_study-3.sav"))
+#pretest Study 3
+pretest_study3_raw <- read_sav(paste0(input_path, "pretest_study-3.sav"))
 pretest_study3 <- subset(pretest_study3_raw, filter_all > 0)
 
 t.test(Fairness ~ Fairness90VSconventional,data=pretest_study3)
