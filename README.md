@@ -17,8 +17,8 @@ To download the data, select "Access Dataset" and download the Original Format Z
 Create a `data` folder, and inside the folder, create a `raw` folder.
 The data should be stored in a `~/Documents/data/raw/`.
 
-## Step 2 : Running the scripts
-1. Clone the present repo (`flocos`) and create a file `.env` containing the following line:
+### Step 2 : Running the scripts
+1. Clone the present repo (`flocos`) and create a file, called `.env`, containing the following line:
 `PATH='~/Documents/data/'`
 2. Create a folder called `results` in `~/Documents/data/`. 
 The results of the studies will be exported in `.csv` in the folder `~/Documents/data/results/`
