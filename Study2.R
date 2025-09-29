@@ -145,7 +145,7 @@ write.csv(estimates_modelconventionalvsfairness, paste0(output_path, "ResultsStu
 
 #################### Fairness VS Conventional ###################
 
-modelfairnessvsconventional <- paste0(Study1_Model5F, "
+modelfairnessvsconventional <- paste0(Study2_Model5F, "
 
 PRAISING ~ a1*FairnessVSconventional 
 CONDEMNING ~ a2*FairnessVSconventional
