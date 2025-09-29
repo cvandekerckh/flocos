@@ -153,3 +153,36 @@ PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
 MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
 "
 
+# Praising model 1
+Study1_praising_model1 <- paste0(praising_and_moralid_factors, "PRAISING ~ MORALID")
+fit_Study1_praising_model1 <- sem(Study1_praising_model1, data=study1, se = "bootstrap",bootstrap = 10000)
+summary(fit_Study1_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+Study1_praising_model1_output <- parameterEstimates(fit_Study1_praising_model1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                    standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                    boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(Study1_praising_model1_output)
+write.csv(Study1_praising_model1_output, "Study1_praising_model1_output.csv")
+
+summary_output_Study1_praising_model1 <- capture.output(summary(fit_Study1_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_Study1_praising_model1, sep = "\n")
+sink("summary_output_Study1_praising_model1.txt")
+cat(summary_output_Study1_praising_model1, sep = "\n")
+sink()
+
+# Praising model 2
+Study1_praising_model2 <- paste0(praising_and_moralid_factors, "PRAISING ~ MORALID + FairnessVSconventional") 
+fit_Study1_praising_model2 <- sem(Study1_praising_model2, data=study1, se = "bootstrap",bootstrap = 10000)
+summary(fit_Study1_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+Study1_praising_model2_output <- parameterEstimates(fit_Study1_praising_model2,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                    standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                    boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(Study1_praising_model2_output)
+write.csv(Study1_praising_model2_output, "Study1_praising_model2_output.csv")
+
+summary_output_Study1_praising_model2 <- capture.output(summary(fit_Study1_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_Study1_praising_model2, sep = "\n")
+sink("summary_output_Study1_praising_model2.txt")
+cat(summary_output_Study1_praising_model2, sep = "\n")
+sink()
