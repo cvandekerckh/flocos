@@ -84,12 +84,7 @@ MoralID1+MoralID2+MoralID3+MoralID4+MoralID5"
 fit1F <- cfa(Study1_Model1F, data=study1)
 summary(fit1F, fit.measures=TRUE, standardized = TRUE)
 
-modelconventionalvsfairness <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+modelconventionalvsfairness <- paste0(Study1_Model5F, "
 
 PRAISING ~ a1*ConventionalVSfairness 
 CONDEMNING ~ a2*ConventionalVSfairness
@@ -101,7 +96,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit1 <- sem(modelconventionalvsfairness, data=study1, se = "bootstrap",bootstrap = 100)
 summary(fit1, fit.measures=TRUE, standardized = TRUE)
 
@@ -113,13 +108,7 @@ estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
 View(estimates_modelconventionalvsfairness)
 write.csv(estimates_modelconventionalvsfairness, paste0(output_path, "ResultsStudy1modelconventionalvsfairness.csv"))
 
-modelfairnessvsconventional <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+modelfairnessvsconventional <- paste0(Study1_Model5F, "
 
 PRAISING ~ a1*FairnessVSconventional 
 CONDEMNING ~ a2*FairnessVSconventional
@@ -131,7 +120,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit2 <- sem(modelfairnessvsconventional, data=study1, se = "bootstrap",bootstrap = 100)
 summary(fit2, fit.measures=TRUE, standardized = TRUE)
 
