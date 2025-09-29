@@ -1,3 +1,5 @@
+#################### Loading ###################
+
 #get packages if missing
 install.packages("lavaan")
 install.packages("haven")
@@ -29,6 +31,8 @@ study3 <- subset(study3_raw, filter_all > 0)
 #note5: ConventionalVSfairness90 is a dummy variable, with 90% fairness-aware algorithm = 0 and conventional algorithm = 1
 #note6: ConventionalVSfairness60 is a dummy variable, with 60% fairness-aware algorithm = 0 and conventional algorithm = 1
 
+#################### Correlation ###################
+
 #correlation matrix with means of items: to obtain means and standard deviations
 variables <- study3[, c("m_Praising", "m_Condemning", "m_PWoM", "m_NWoM", "m_MoralID")]
 correlation_matrix <- cor(variables)
@@ -37,6 +41,8 @@ p_values <- corr.test(variables)$p
 print(correlation_matrix)
 print(description)
 print(p_values)
+
+#################### Cronbach's alphas ###################
 
 # Cronbach's alphas
 alpha_Praising <- alpha(study3[, c("Elevation1","Elevation2","Elevation3","Gratitude1","Gratitude2","Gratitude3")])
@@ -50,6 +56,8 @@ print(alpha_Condemning)
 print(alpha_NWoM)
 print(alpha_PWoM)
 print(alpha_MoralID)
+
+#################### t-tests  ###################
 
 #t-tests 
 t.test(m_Praising ~ Fairness90VSconventional,data=study3)
@@ -94,13 +102,37 @@ print(sd_group0)
 print(sd_group1)
 cohen.d(study3$m_Condemning, study3$Fairness90VSfairness60)
 
-#fit of the hypothesized five-factor model
-Study3_Model5F <- "
+#################### Factors ###################
+praising_factors <- "
 PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
+"
+
+condemning_factors <- "
 CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
+"
+
+pwom_factors <- "
 PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5"
+"
+
+nwom_factors <- "
+NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
+"
+
+moralid_factors <- "
+MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+"
+
+#################### Fitting models ###################
+
+#fit of the hypothesized five-factor model
+Study3_Model5F <- paste0(
+  praising_factors,
+  condemning_factors,
+  nwom_factors,
+  pwom_factors,
+  moralid_factors
+)
 fit5F <- cfa(Study3_Model5F, data=study3)
 summary(fit5F, fit.measures=TRUE, standardized = TRUE)
 
@@ -115,13 +147,9 @@ MoralID1+MoralID2+MoralID3+MoralID4+MoralID5"
 fit1F <- cfa(Study3_Model1F, data=study3)
 summary(fit1F, fit.measures=TRUE, standardized = TRUE)
 
-modelconventionalvsfairness90 <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+#################### Conventional VS Fairness 90 ###################
+
+modelconventionalvsfairness90 <- paste0(Study3_Model5F, "
 
 PRAISING ~ a1*ConventionalVSfairness90 
 CONDEMNING ~ a2*ConventionalVSfairness90
@@ -133,7 +161,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit1 <- sem(modelconventionalvsfairness90, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit1, fit.measures=TRUE, standardized = TRUE)
 
@@ -144,13 +172,9 @@ estimates_modelconventionalvsfairness90 <- parameterEstimates(fit1,se = TRUE, zs
 View(estimates_modelconventionalvsfairness90)
 write.csv(estimates_modelconventionalvsfairness90, paste0(output_path, "ResultsStudy3modelconventionalvsfairness90.csv"))
 
-modelfairness90vsconventional <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+#################### Fairness 90 VS Conventional ###################
+
+modelfairness90vsconventional <- paste0(Study3_Model5F, "
 
 PRAISING ~ a1*Fairness90VSconventional 
 CONDEMNING ~ a2*Fairness90VSconventional
@@ -162,7 +186,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit2 <- sem(modelfairness90vsconventional, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit2, fit.measures=TRUE, standardized = TRUE)
 
@@ -174,13 +198,9 @@ estimates_modelfairness90vsconventional <- parameterEstimates(fit2,
 View(estimates_modelfairness90vsconventional)
 write.csv(estimates_modelfairness90vsconventional, paste0(output_path, "ResultsStudy3modelfairness90vsconventional.csv"))
 
-modelconventionalvsfairness60 <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+#################### Conventional VS Fairness 60 ###################
+
+modelconventionalvsfairness60 <- paste0(Study3_Model5F, "
 
 PRAISING ~ a1*ConventionalVSfairness60 
 CONDEMNING ~ a2*ConventionalVSfairness60
@@ -192,7 +212,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit3 <- sem(modelconventionalvsfairness60, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit3, fit.measures=TRUE, standardized = TRUE)
 
@@ -203,13 +223,9 @@ estimates_modelconventionalvsfairness60 <- parameterEstimates(fit3,se = TRUE, zs
 View(estimates_modelconventionalvsfairness60)
 write.csv(estimates_modelconventionalvsfairness60, paste0(output_path, "ResultsStudy3modelconventionalvsfairness60.csv"))
 
-modelfairness60vsconventional <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+#################### Fairness 60 VS Conventional ###################
+
+modelfairness60vsconventional <- paste0(Study3_Model5F, "
 
 PRAISING ~ a1*Fairness60VSconventional 
 CONDEMNING ~ a2*Fairness60VSconventional
@@ -221,7 +237,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit4 <- sem(modelfairness60vsconventional, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit4, fit.measures=TRUE, standardized = TRUE)
 
@@ -233,13 +249,9 @@ estimates_modelfairness60vsconventional <- parameterEstimates(fit4,
 View(estimates_modelfairness60vsconventional)
 write.csv(estimates_modelfairness60vsconventional, paste0(output_path, "ResultsStudy3modelfairness60vsconventional.csv"))
 
-modelfairness90vsfairness60 <- "
-PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
-CONDEMNING=~Anger1+Anger2+Anger3+Contempt1+Contempt2+Contempt3+Disgust1+Disgust2+Disgust3
-NWOM=~NWoM1+NWoM2+NWoM3+NWoM4
-PWOM=~PWoM1+PWoM2+PWoM3+PWoM4
-#MORALLID4 and MORALID5 were reverse coded prior to analyses
-MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+#################### Fairness 90 VS Fairness 60 ###################
+
+modelfairness90vsfairness60 <- paste0(Study3_Model5F, "
 
 PRAISING ~ a1*Fairness90VSfairness60 
 CONDEMNING ~ a2*Fairness90VSfairness60 
@@ -251,7 +263,7 @@ NWOMviaPRAISING := a1*b11
 NWOMviaCONDEMNING := a2*b12
 PWOMviaPRAISING := a1*b21
 PWOMviaCONDEMNING := a2*b22
-"
+")
 fit5 <- sem(modelfairness90vsfairness60, data=study3, se = "bootstrap",bootstrap = 100)
 summary(fit5, fit.measures=TRUE, standardized = TRUE)
 
