@@ -274,3 +274,436 @@ estimates_modelfairness90vsfairness60 <- parameterEstimates(fit5,
                                                               cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairness90vsfairness60)
 write.csv(estimates_modelfairness90vsfairness60, paste0(output_path, "ResultsStudy3modelfairness90vsfairness60.csv"))
+
+#################### Hierarchical models ###################
+
+########## Fairness 90 ##########
+
+# Praising model 1
+study3fairness90_praising_model1 <- paste0(
+  praising_factors,
+  moralid_factors,
+  "PRAISING ~ MORALID"
+)
+fit_study3fairness90_praising_model1 <- sem(study3fairness90_praising_model1, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_praising_model1_output <- parameterEstimates(fit_study3fairness90_praising_model1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                              standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                              boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_praising_model1_output)
+write.csv(study3fairness90_praising_model1_output, "study3fairness90_praising_model1_output.csv")
+
+summary_output_study3fairness90_praising_model1 <- capture.output(summary(fit_study3fairness90_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_praising_model1, sep = "\n")
+sink("summary_output_study3fairness90_praising_model1.txt")
+cat(summary_output_study3fairness90_praising_model1, sep = "\n")
+sink()
+
+# Praising model 2
+study3fairness90_praising_model2 <- paste0(
+  praising_factors,
+  moralid_factors,
+  "PRAISING ~ MORALID + Fairness90VSconventional"
+) 
+fit_study3fairness90_praising_model2 <- sem(study3fairness90_praising_model2, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_praising_model2_output <- parameterEstimates(fit_study3fairness90_praising_model2,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                              standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                              boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_praising_model2_output)
+write.csv(study3fairness90_praising_model2_output, "study3fairness90_praising_model2_output.csv")
+
+summary_output_study3fairness90_praising_model2 <- capture.output(summary(fit_study3fairness90_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_praising_model2, sep = "\n")
+sink("summary_output_study3fairness90_praising_model2.txt")
+cat(summary_output_study3fairness90_praising_model2, sep = "\n")
+sink()
+
+# Condemning model 1
+study3fairness90_condemning_model1 <- paste0(
+  condemning_factors,
+  moralid_factors,
+  "CONDEMNING ~ MORALID"
+)
+fit_study3fairness90_condemning_model1 <- sem(study3fairness90_condemning_model1, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_condemning_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_condemning_model1_output <- parameterEstimates(fit_study3fairness90_condemning_model1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                                standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                                boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_condemning_model1_output)
+write.csv(study3fairness90_condemning_model1_output, "study3fairness90_condemning_model1_output.csv")
+
+summary_output_study3fairness90_condemning_model1 <- capture.output(summary(fit_study3fairness90_condemning_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_condemning_model1, sep = "\n")
+sink("summary_output_study3fairness90_condemning_model1.txt")
+cat(summary_output_study3fairness90_condemning_model1, sep = "\n")
+sink()
+
+# Condemning model 2
+study3fairness90_condemning_model2 <- paste0(
+  condemning_factors,
+  moralid_factors,
+  "CONDEMNING ~ MORALID + ConventionalVSfairness90"
+)
+fit_study3fairness90_condemning_model2 <- sem(study3fairness90_condemning_model2, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_condemning_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_condemning_model2_output <- parameterEstimates(fit_study3fairness90_condemning_model2,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                                standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                                boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_condemning_model2_output)
+write.csv(study3fairness90_condemning_model2_output, "study3fairness90_condemning_model2_output.csv")
+
+summary_output_study3fairness90_condemning_model2 <- capture.output(summary(fit_study3fairness90_condemning_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_condemning_model2, sep = "\n")
+sink("summary_output_study3fairness90_condemning_model2.txt")
+cat(summary_output_study3fairness90_condemning_model2, sep = "\n")
+sink()
+
+# PWOM model 3
+study3fairness90_pwom_model3 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  "PWOM ~ MORALID"
+)
+fit_study3fairness90_pwom_model3 <- sem(study3fairness90_pwom_model3, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_pwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_pwom_model3_output <- parameterEstimates(fit_study3fairness90_pwom_model3,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_pwom_model3_output)
+write.csv(study3fairness90_pwom_model3_output, "study3fairness90_pwom_model3_output.csv")
+
+summary_output_study3fairness90_pwom_model3 <- capture.output(summary(fit_study3fairness90_pwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_pwom_model3, sep = "\n")
+sink("summary_output_study3fairness90_pwom_model3.txt")
+cat(summary_output_study3fairness90_pwom_model3, sep = "\n")
+sink()
+
+# PWOM model 4
+study3fairness90_pwom_model4 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  "PWOM ~ MORALID + Fairness90VSconventional"
+)fit_study3fairness90_pwom_model4 <- sem(study3fairness90_pwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_pwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_pwom_model4_output <- parameterEstimates(fit_study3fairness90_pwom_model4,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_pwom_model4_output)
+write.csv(study3fairness90_pwom_model4_output, "study3fairness90_pwom_model4_output.csv")
+
+summary_output_study3fairness90_pwom_model4 <- capture.output(summary(fit_study3fairness90_pwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_pwom_model4, sep = "\n")
+sink("summary_output_study3fairness90_pwom_model4.txt")
+cat(summary_output_study3fairness90_pwom_model4, sep = "\n")
+sink()
+
+# PWOM model 5
+study3fairness90_pwom_model5 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  praising_factors,
+  condemning_factors,
+  "PWOM ~ MORALID + PRAISING + CONDEMNING + Fairness90VSconventional"
+)
+fit_study3fairness90_pwom_model5 <- sem(study3fairness90_pwom_model5, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_pwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_pwom_model5_output <- parameterEstimates(fit_study3fairness90_pwom_model5,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_pwom_model5_output)
+write.csv(study3fairness90_pwom_model5_output, "study3fairness90_pwom_model5_output.csv")
+
+summary_output_study3fairness90_pwom_model5 <- capture.output(summary(fit_study3fairness90_pwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_pwom_model5, sep = "\n")
+sink("summary_output_study3fairness90_pwom_model5.txt")
+cat(summary_output_study3fairness90_pwom_model5, sep = "\n")
+sink()
+
+# NWOM model 3
+study3fairness90_nwom_model3 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  "NWOM ~ MORALID"
+)
+fit_study3fairness90_nwom_model3 <- sem(study3fairness90_nwom_model3, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_nwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_nwom_model3_output <- parameterEstimates(fit_study3fairness90_nwom_model3,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_nwom_model3_output)
+write.csv(study3fairness90_nwom_model3_output, "study3fairness90_nwom_model3_output.csv")
+
+summary_output_study3fairness90_nwom_model3 <- capture.output(summary(fit_study3fairness90_nwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_nwom_model3, sep = "\n")
+sink("summary_output_study3fairness90_nwom_model3.txt")
+cat(summary_output_study3fairness90_nwom_model3, sep = "\n")
+sink()
+
+# NWOM model 4
+study3fairness90_nwom_model4 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  "NWOM ~ MORALID + ConventionalVSfairness90"
+)
+fit_study3fairness90_nwom_model4 <- sem(study3fairness90_nwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_nwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_nwom_model4_output <- parameterEstimates(fit_study3fairness90_nwom_model4,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_nwom_model4_output)
+write.csv(study3fairness90_nwom_model4_output, "study3fairness90_nwom_model4_output.csv")
+
+summary_output_study3fairness90_nwom_model4 <- capture.output(summary(fit_study3fairness90_nwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_nwom_model4, sep = "\n")
+sink("summary_output_study3fairness90_nwom_model4.txt")
+cat(summary_output_study3fairness90_nwom_model4, sep = "\n")
+sink()
+
+# NWOM model 5
+study3fairness90_nwom_model5 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  praising_factors,
+  condemning_factors,
+  "NWOM ~ MORALID + PRAISING + CONDEMNING + ConventionalVSfairness90"
+)
+fit_study3fairness90_nwom_model5 <- sem(study3fairness90_nwom_model5, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness90_nwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness90_nwom_model5_output <- parameterEstimates(fit_study3fairness90_nwom_model5,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness90_nwom_model5_output)
+write.csv(study3fairness90_nwom_model5_output, "study3fairness90_nwom_model5_output.csv")
+
+summary_output_study3fairness90_nwom_model5 <- capture.output(summary(fit_study3fairness90_nwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness90_nwom_model5, sep = "\n")
+sink("summary_output_study3fairness90_nwom_model5.txt")
+cat(summary_output_study3fairness90_nwom_model5, sep = "\n")
+sink()
+
+########## Fairness 60 ##########
+
+# Praising model 1
+study3fairness60_praising_model1 <- paste0(
+  praising_factors,
+  moralid_factors,
+  "PRAISING ~ MORALID"
+)
+fit_study3fairness60_praising_model1 <- sem(study3fairness60_praising_model1, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_praising_model1_output <- parameterEstimates(fit_study3fairness60_praising_model1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                              standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                              boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_praising_model1_output)
+write.csv(study3fairness60_praising_model1_output, "study3fairness60_praising_model1_output.csv")
+
+summary_output_study3fairness60_praising_model1 <- capture.output(summary(fit_study3fairness60_praising_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_praising_model1, sep = "\n")
+sink("summary_output_study3fairness60_praising_model1.txt")
+cat(summary_output_study3fairness60_praising_model1, sep = "\n")
+sink()
+
+# Praising model 2
+study3fairness60_praising_model2 <- paste0(
+  praising_factors,
+  moralid_factors,
+  "PRAISING ~ MORALID + Fairness60VSconventional"
+) 
+fit_study3fairness60_praising_model2 <- sem(study3fairness60_praising_model2, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_praising_model2_output <- parameterEstimates(fit_study3fairness60_praising_model2,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                              standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                              boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_praising_model2_output)
+write.csv(study3fairness60_praising_model2_output, "study3fairness60_praising_model2_output.csv")
+
+summary_output_study3fairness60_praising_model2 <- capture.output(summary(fit_study3fairness60_praising_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_praising_model2, sep = "\n")
+sink("summary_output_study3fairness60_praising_model2.txt")
+cat(summary_output_study3fairness60_praising_model2, sep = "\n")
+sink()
+
+# Condemning model 1
+study3fairness60_condemning_model1 <- paste0(
+  condemning_factors,
+  moralid_factors,
+  "CONDEMNING ~ MORALID"
+)
+fit_study3fairness60_condemning_model1 <- sem(study3fairness60_condemning_model1, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_condemning_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_condemning_model1_output <- parameterEstimates(fit_study3fairness60_condemning_model1,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                                standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                                boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_condemning_model1_output)
+write.csv(study3fairness60_condemning_model1_output, "study3fairness60_condemning_model1_output.csv")
+
+summary_output_study3fairness60_condemning_model1 <- capture.output(summary(fit_study3fairness60_condemning_model1, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_condemning_model1, sep = "\n")
+sink("summary_output_study3fairness60_condemning_model1.txt")
+cat(summary_output_study3fairness60_condemning_model1, sep = "\n")
+sink()
+
+# Condemning model 2
+study3fairness60_condemning_model2 <- paste0(
+  condemning_factors,
+  moralid_factors,
+  "CONDEMNING ~ MORALID + ConventionalVSfairness60"
+)
+fit_study3fairness60_condemning_model2 <- sem(study3fairness60_condemning_model2, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_condemning_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_condemning_model2_output <- parameterEstimates(fit_study3fairness60_condemning_model2,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                                standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                                boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_condemning_model2_output)
+write.csv(study3fairness60_condemning_model2_output, "study3fairness60_condemning_model2_output.csv")
+
+summary_output_study3fairness60_condemning_model2 <- capture.output(summary(fit_study3fairness60_condemning_model2, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_condemning_model2, sep = "\n")
+sink("summary_output_study3fairness60_condemning_model2.txt")
+cat(summary_output_study3fairness60_condemning_model2, sep = "\n")
+sink()
+
+# PWOM model 3
+study3fairness60_pwom_model3 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  "PWOM ~ MORALID"
+)
+fit_study3fairness60_pwom_model3 <- sem(study3fairness60_pwom_model3, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_pwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_pwom_model3_output <- parameterEstimates(fit_study3fairness60_pwom_model3,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_pwom_model3_output)
+write.csv(study3fairness60_pwom_model3_output, "study3fairness60_pwom_model3_output.csv")
+
+summary_output_study3fairness60_pwom_model3 <- capture.output(summary(fit_study3fairness60_pwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_pwom_model3, sep = "\n")
+sink("summary_output_study3fairness60_pwom_model3.txt")
+cat(summary_output_study3fairness60_pwom_model3, sep = "\n")
+sink()
+
+# PWOM model 4
+study3fairness60_pwom_model4 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  "PWOM ~ MORALID + Fairness60VSconventional"
+)
+fit_study3fairness60_pwom_model4 <- sem(study3fairness60_pwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_pwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_pwom_model4_output <- parameterEstimates(fit_study3fairness60_pwom_model4,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_pwom_model4_output)
+write.csv(study3fairness60_pwom_model4_output, "study3fairness60_pwom_model4_output.csv")
+
+summary_output_study3fairness60_pwom_model4 <- capture.output(summary(fit_study3fairness60_pwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_pwom_model4, sep = "\n")
+sink("summary_output_study3fairness60_pwom_model4.txt")
+cat(summary_output_study3fairness60_pwom_model4, sep = "\n")
+sink()
+
+# PWOM model 5
+study3fairness60_pwom_model5 <- paste0(
+  pwom_factors,
+  moralid_factors,
+  praising_factors,
+  condemning_factors,
+  "PWOM ~ MORALID + PRAISING + CONDEMNING + Fairness60VSconventional"
+)
+fit_study3fairness60_pwom_model5 <- sem(study3fairness60_pwom_model5, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_pwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_pwom_model5_output <- parameterEstimates(fit_study3fairness60_pwom_model5,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_pwom_model5_output)
+write.csv(study3fairness60_pwom_model5_output, "study3fairness60_pwom_model5_output.csv")
+
+summary_output_study3fairness60_pwom_model5 <- capture.output(summary(fit_study3fairness60_pwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_pwom_model5, sep = "\n")
+sink("summary_output_study3fairness60_pwom_model5.txt")
+cat(summary_output_study3fairness60_pwom_model5, sep = "\n")
+sink()
+
+# NWOM model 3
+study3fairness60_nwom_model3 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  "NWOM ~ MORALID"
+)
+fit_study3fairness60_nwom_model3 <- sem(study3fairness60_nwom_model3, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_nwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_nwom_model3_output <- parameterEstimates(fit_study3fairness60_nwom_model3,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_nwom_model3_output)
+write.csv(study3fairness60_nwom_model3_output, "study3fairness60_nwom_model3_output.csv")
+
+summary_output_study3fairness60_nwom_model3 <- capture.output(summary(fit_study3fairness60_nwom_model3, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_nwom_model3, sep = "\n")
+sink("summary_output_study3fairness60_nwom_model3.txt")
+cat(summary_output_study3fairness60_nwom_model3, sep = "\n")
+sink()
+
+# NWOM model 4
+study3fairness60_nwom_model4 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  "NWOM ~ MORALID + ConventionalVSfairness60"
+)
+fit_study3fairness60_nwom_model4 <- sem(study3fairness60_nwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_nwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_nwom_model4_output <- parameterEstimates(fit_study3fairness60_nwom_model4,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_nwom_model4_output)
+write.csv(study3fairness60_nwom_model4_output, "study3fairness60_nwom_model4_output.csv")
+
+summary_output_study3fairness60_nwom_model4 <- capture.output(summary(fit_study3fairness60_nwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_nwom_model4, sep = "\n")
+sink("summary_output_study3fairness60_nwom_model4.txt")
+cat(summary_output_study3fairness60_nwom_model4, sep = "\n")
+sink()
+
+# NWOM model 5
+study3fairness60_nwom_model5 <- paste0(
+  nwom_factors,
+  moralid_factors,
+  praising_factors,
+  condemning_factors,
+  "NWOM ~ MORALID + PRAISING + CONDEMNING + ConventionalVSfairness60"
+)
+fit_study3fairness60_nwom_model5 <- sem(study3fairness60_nwom_model5, data=study3, se = "bootstrap",bootstrap = 10000)
+summary(fit_study3fairness60_nwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
+
+study3fairness60_nwom_model5_output <- parameterEstimates(fit_study3fairness60_nwom_model5,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
+                                                          standardized = TRUE, fmi = FALSE, level = 0.95, 
+                                                          boot.ci.type = "bca.simple", cov.std = TRUE, output = "data.frame", header = TRUE)
+View(study3fairness60_nwom_model5_output)
+write.csv(study3fairness60_nwom_model5_output, "study3fairness60_nwom_model5_output.csv")
+
+summary_output_study3fairness60_nwom_model5 <- capture.output(summary(fit_study3fairness60_nwom_model5, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE))
+cat(summary_output_study3fairness60_nwom_model5, sep = "\n")
+sink("summary_output_study3fairness60_nwom_model5.txt")
+cat(summary_output_study3fairness60_nwom_model5, sep = "\n")
+sink()
