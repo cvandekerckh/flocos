@@ -1,3 +1,5 @@
+#################### Loading ###################
+
 #get packages if missing
 install.packages("lavaan")
 install.packages("haven")
@@ -26,6 +28,8 @@ study1 <- subset(study1_raw, filter_all > 0)
 #note3: FairnessVSconventional is a dummy variable, with fairness-aware algorithm = 1 and conventional algorithm = 0
 #note4: ConventionalVSfairness is a dummy variable, with fairness-aware algorithm = 0 and conventional algorithm = 1
 
+#################### Correlation ###################
+
 #correlation matrix
 variables <- study1[, c("m_Praising", "m_Condemning", "m_PWoM", "m_NWoM", "m_MoralID")]
 correlation_matrix <- cor(variables)
@@ -34,6 +38,8 @@ p_values <- corr.test(variables)$p
 print(correlation_matrix)
 print(description)
 print(p_values)
+
+#################### Cronbach's alphas ###################
 
 # Cronbach's alphas
 alpha_Praising <- alpha(study1[, c("Elevation1","Elevation2","Elevation3","Gratitude1","Gratitude2","Gratitude3")])
@@ -48,7 +54,8 @@ print(alpha_NWoM)
 print(alpha_PWoM)
 print(alpha_MoralID)
 
-#t-tests 
+#################### t-tests  ###################
+
 t.test(m_Praising ~ FairnessVSconventional,data=study1)
 sd_group0 <- sd(study1$m_Praising[study1$FairnessVSconventional == 0])
 sd_group1 <- sd(study1$m_Praising[study1$FairnessVSconventional == 1])
@@ -62,6 +69,8 @@ sd_group1 <- sd(study1$m_Condemning[study1$ConventionalVSfairness == 1])
 print(sd_group0)
 print(sd_group1)
 cohen.d(study1$m_Condemning, study1$ConventionalVSfairness)
+
+#################### Fitting models ###################
 
 #fit of the hypothesized five-factor model
 Study1_Model5F <- "
@@ -83,6 +92,8 @@ PWoM1+PWoM2+PWoM3+PWoM4+
 MoralID1+MoralID2+MoralID3+MoralID4+MoralID5" 
 fit1F <- cfa(Study1_Model1F, data=study1)
 summary(fit1F, fit.measures=TRUE, standardized = TRUE)
+
+#################### Conventional VS fairness ###################
 
 modelconventionalvsfairness <- paste0(Study1_Model5F, "
 
@@ -108,6 +119,8 @@ estimates_modelconventionalvsfairness <- parameterEstimates(fit1,
 View(estimates_modelconventionalvsfairness)
 write.csv(estimates_modelconventionalvsfairness, paste0(output_path, "ResultsStudy1modelconventionalvsfairness.csv"))
 
+#################### Fairness VS Conventional###################
+
 modelfairnessvsconventional <- paste0(Study1_Model5F, "
 
 PRAISING ~ a1*FairnessVSconventional 
@@ -131,3 +144,12 @@ estimates_modelfairnessvsconventional <- parameterEstimates(fit2,
                                                             cov.std = TRUE, output = "data.frame", header = TRUE)
 View(estimates_modelfairnessvsconventional)
 write.csv(estimates_modelfairnessvsconventional, paste0(output_path, "ResultsStudy1modelfairnessvsconventional.csv"))
+
+#################### Hierarchical models ###################
+
+# praising and moral ID factors
+praising_and_moralid_factors <- "
+PRAISING=~Elevation1+Elevation2+Elevation3+Gratitude1+Gratitude2+Gratitude3
+MORALID=~MoralID1+MoralID2+MoralID3+MoralID4+MoralID5
+"
+
