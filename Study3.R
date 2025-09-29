@@ -389,7 +389,8 @@ study3fairness90_pwom_model4 <- paste0(
   pwom_factors,
   moralid_factors,
   "PWOM ~ MORALID + Fairness90VSconventional"
-)fit_study3fairness90_pwom_model4 <- sem(study3fairness90_pwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
+)
+fit_study3fairness90_pwom_model4 <- sem(study3fairness90_pwom_model4, data=study3, se = "bootstrap",bootstrap = 10000)
 summary(fit_study3fairness90_pwom_model4, fit.measures=TRUE, standardized = TRUE, rsquare=TRUE)
 
 study3fairness90_pwom_model4_output <- parameterEstimates(fit_study3fairness90_pwom_model4,se = TRUE, zstat = TRUE, pvalue = TRUE, ci = TRUE,
