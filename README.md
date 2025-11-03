@@ -1,6 +1,6 @@
 # Flocos
 The following repo contains the code to replicate the studies made in our paper entitled *Is it fair to be accurate? 
-Studying moral reactions to the use of artificial intelligence.*
+oral-emotional responses to organizations’ AI orientation choices.*
 
 ## Gettings started
 ### Setting up the environment
